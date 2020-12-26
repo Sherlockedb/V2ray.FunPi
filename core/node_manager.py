@@ -37,7 +37,9 @@ class NodeManager(BaseDataItem):
         url = group.subscribe
         r = requests.get(url)
         list = r.text
-        list = base64.b64decode(list).decode('utf8')
+        lens = len(list)
+        lenx = lens - (lens % 4 if lens % 4 else 4)
+        list = base64.b64decode(list[:lenx]).decode('utf8')
 
         group.nodes.clear()
         for line in list.splitlines():
